@@ -1,0 +1,1 @@
+export { genreArray } from "./genre.helper.js"
