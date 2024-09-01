@@ -14,8 +14,8 @@ const PORT = 3000
 app.use(express.json())
 app.use(cors())
 
-app.use(mediaController)
-app.use(searchController)
+app.use('/api/v1', mediaController)
+app.use('/api/v1', searchController)
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
