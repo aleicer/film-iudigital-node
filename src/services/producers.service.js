@@ -1,0 +1,51 @@
+import { ProducerModel } from '../schemas/Producers.schema.js';
+
+export class ProducerService {
+  async createProducer(producerData) {
+    try {
+      console.log(producerData);
+      const producer = new ProducerModel(producerData);
+      return await producer.save();
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  async getAllProducers() {
+    try {
+      return await ProducerModel.find();
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  async getProducerById(id) {
+    try {
+      return await ProducerModel.findById(id);
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  async updateProducer(id, producerData) {
+    console.log(producerData);
+    try {
+      return await ProducerModel.findByIdAndUpdate(
+        id,
+        // $set is used to only update the fields that are passed in the request body
+        { $set: producerData },
+        { new: true }
+      );
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  async deleteProducer(id) {
+    try {
+      return await ProducerModel.findByIdAndDelete(id);
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+}
