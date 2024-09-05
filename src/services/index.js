@@ -1,2 +1,4 @@
-export { MediaService } from "./media.service.js"
-export { SearchService } from "./search.service.js"
+export { MediaService } from './media.service.js';
+export { SearchService } from './search.service.js';
+export { ProducerService } from './producers.service.js';
+export { DirectorService } from './directors.service.js';
