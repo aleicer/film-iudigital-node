@@ -7,13 +7,14 @@ const MediaSchema = new Schema({
   synopsis: { type: String, required: true },
   url: { type: String, required: true, unique: true },
   coverImage: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
   releaseYear: { type: Date, required: true },
   genre: { type: Schema.Types.ObjectId, required: false, ref: 'Genre' },
   director: { type: Schema.Types.ObjectId, required: false, ref: 'Director' },
   producer: { type: Schema.Types.ObjectId, required: false, ref: 'Producer' },
   type: { type: Schema.Types.ObjectId, required: false, ref: 'Type' },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
 }, { timestamps: true })
 
-export const MediaModel = model('Media', MediaSchema)
+const MediaModel = model('Media', MediaSchema)
+export { MediaModel }

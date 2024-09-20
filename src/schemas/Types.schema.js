@@ -6,6 +6,7 @@ const TypesSchema = new Schema({
   description: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
-});
+}, { timestamps: true });
 
-export const TypesModel = model('Types', TypesSchema);
+const TypesModel = model('Type', TypesSchema);
+export { TypesModel };

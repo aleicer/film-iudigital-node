@@ -1,4 +1,4 @@
-import { ProducerModel } from '../schemas/Producers.schema.js';
+import { ProducerModel } from '../schemas/index.js';
 
 export class ProducerService {
   async createProducer(producerData) {
@@ -9,6 +9,17 @@ export class ProducerService {
     } catch (error) {
       throw new Error(error.message);
     }
+  }
+
+  async saveOrUpdateProducer(producerData) {
+    try {
+      return await ProducerModel.findOneAndUpdate(
+        { name: producerData.name },
+        { $set: producerData },
+        { new: true, upsert: true }).lean();
+    } catch (error) {
+    throw new Error(error.message);
+  }
   }
 
   async getAllProducers() {
