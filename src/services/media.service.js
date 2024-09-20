@@ -1,4 +1,4 @@
-import { MediaModel } from "../schemas/media.schema.js"
+import { MediaModel } from "../schemas/index.js"
 
 export class MediaService {
   async createMedia(mediaData) {
@@ -18,15 +18,27 @@ export class MediaService {
       throw new Error(error.message)
     }
   }
-  
+
   async getMediaById(id) {
     try {
       return await MediaModel.findById(id)
+        .populate('type')
+        .populate('genre')
+        .populate('producer')
+        .populate('director')
     } catch (error) {
       throw new Error(error.message)
     }
   }
-  
+
+  async getMediaBySerial(serial) {
+    try {
+      return await MediaModel.findOne({ serial: serial }).lean()
+    } catch (error) {
+      throw new Error(error.message)
+    }
+  }
+
   async updateMedia(id, mediaData) {
     console.log(mediaData)
     try {
@@ -35,7 +47,7 @@ export class MediaService {
       throw new Error(error.message)
     }
   }
-  
+
   async deleteMedia(id) {
     try {
       return await MediaModel.findByIdAndDelete(id)

@@ -1,4 +1,4 @@
-import { TypesModel } from '../schemas/Types.schema.js';
+import { TypesModel } from '../schemas/index.js';
 
 export class TypesService {
   async createTypes(typesData) {

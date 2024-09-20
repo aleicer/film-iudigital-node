@@ -1,4 +1,4 @@
-import { DirectorModel } from '../schemas/Directors.schema.js';
+import { DirectorModel } from '../schemas/index.js'
 
 export class DirectorService {
   async createDirector(directorData) {
@@ -8,6 +8,18 @@ export class DirectorService {
       return await director.save();
     } catch (error) {
       throw new Error(error.message);
+    }
+  }
+
+  async saveOrUpdateDirector(directorData) {
+    try {
+      return await DirectorModel.findOneAndUpdate(
+        { name: directorData.name },
+        { $set: directorData },
+        { new: true, upsert: true }
+      ).lean();
+    } catch (error) {
+      throw new Error(error.message)
     }
   }
 

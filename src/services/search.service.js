@@ -1,10 +1,12 @@
 import axios from "axios"
 
-import { genreArray, producerRandomDescription, directors } from "../helpers/genre.helper.js"
+import { MediaService, DirectorService, GenreService, ProducerService } from './index.js'
+import { genreArray, producerRandomDescription, directors } from "../helpers/index.js"
+
 
 export class SearchService {
   async getAllInformation(films) {
-    const filmInfomation = []
+    const filmInformation = []
     for (const film of films.results) {
       const getInfoConfig = {
         method: 'GET',
@@ -16,7 +18,7 @@ export class SearchService {
       try {
         const { data } = await axios.request(getInfoConfig)
         const genre = {
-          nombre: data.genres[0].name,
+          name: data.genres[0].name,
           description: genreArray.find(genre => genre.id === data.genres[0].id).description,
           status: 'activo'
         }
@@ -32,7 +34,7 @@ export class SearchService {
           name: directors[randomIndexDirector].name,
           status: 'activo'
         }
-        const type = { name: 'pelicula', status: 'activo' }
+        const type = { name: 'película', status: 'activo' }
         const filmData = {
           serial: data.id,
           title: data.title,
@@ -40,18 +42,45 @@ export class SearchService {
           url: `https://film-iudigital.com/info-film/${data.id}`,
           coverImage: `https://image.tmdb.org/t/p/original${data.poster_path}`,
           status: 'activo',
+          releaseYear: data.release_date,
           type,
           genre,
           producer,
           director
         }
-        filmInfomation.push(filmData)
+        const mediaSave = structuredClone(filmData)
+        const saveMedia = await this.saveMedia(filmData)
+        mediaSave._id = saveMedia._id
+        filmInformation.push(mediaSave)
       } catch (error) {
         console.log(error.message)
-        continue
       }
     }
-    return filmInfomation
+    return filmInformation
+  }
+
+  async saveMedia(data) {
+    const mediaService = new MediaService()
+    const genreService = new GenreService()
+    const producerService = new ProducerService()
+    const directorService = new DirectorService()
+
+    const media = await mediaService.getMediaBySerial(data.serial)
+    if (media) return
+    const typeId = data.type.name === 'película' ? '66dccd64b385cb3b47dfd765' : '66dccd8bb385cb3b47dfd767'
+    try {
+      const genreId = await genreService.saveOrUpdateGenre(data.genre)
+      const producerId = await producerService.saveOrUpdateProducer(data.producer)
+      const directorId = await directorService.saveOrUpdateDirector(data.director)
+      data.type = typeId
+      data.genre = genreId._id
+      data.producer = producerId._id
+      data.director = directorId._id
+      return await mediaService.createMedia(data)
+    } catch (error) {
+      console.log(error.message)
+    }
+
   }
 
   async search(query) {
@@ -64,6 +93,7 @@ export class SearchService {
     }
     try {
       const { data } = await axios.request(dataConfig)
+      console.log(data.results[0])
       if (data) return this.getAllInformation(data)
       return []
     } catch (error) {

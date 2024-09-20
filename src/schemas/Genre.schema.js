@@ -1,14 +1,13 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model } from 'mongoose'
 
-const ProducerSchema = new Schema({
+const GenreSchema = new Schema({
   _id: { type: Schema.Types.ObjectId, auto: true },
   name: { type: String, required: true },
   status: { type: String, required: true },
-  slogan: { type: String, required: true },
   description: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
-}, { timestamps: true });
+}, { timestamps: true })
 
-const ProducerModel = model('Producer', ProducerSchema);
-export { ProducerModel };
+const GenreModel = model('Genre', GenreSchema)
+export { GenreModel }
