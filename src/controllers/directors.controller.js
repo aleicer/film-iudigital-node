@@ -6,6 +6,7 @@ import {
   validationCreateDirector,
   validationUpdateDirector,
 } from '../validations/index.js';
+import { authMiddleware, checkRoleAuth } from '../middleware/auth.middleware.js';
 
 const directorsController = Router();
 const directorService = new DirectorService();
@@ -13,6 +14,8 @@ const directorService = new DirectorService();
 // create director
 directorsController.post(
   '/director',
+  authMiddleware,
+  checkRoleAuth(['ADMIN']),
   validationCreateDirector(),
   async (req, res) => {
     const errors = validationResult(req.body);
@@ -29,7 +32,11 @@ directorsController.post(
 );
 
 // get all directors
-directorsController.get('/director', async (req, res) => {
+directorsController.get(
+  '/director',
+  authMiddleware,
+  checkRoleAuth(['ADMIN', 'USER']),
+  async (req, res) => {
   try {
     const directors = await directorService.getAllDirectors();
     res.send(directors).status(200);

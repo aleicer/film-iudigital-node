@@ -16,3 +16,6 @@ export {
   validationCreateDirector,
   validationUpdateDirector,
 } from './directors.validation.js';
+export {
+  validationCreateUser
+} from './users.validation.js';
