@@ -3,7 +3,6 @@ import { TypesModel } from '../schemas/index.js';
 export class TypesService {
   async createTypes(typesData) {
     try {
-      console.log(typesData);
       const types = new TypesModel(typesData);
       return await types.save();
     } catch (error) {
@@ -28,7 +27,6 @@ export class TypesService {
   }
 
   async updateTypes(id, typesData) {
-    console.log(typesData);
     try {
       return await TypesModel.findByIdAndUpdate(
         id,

@@ -93,7 +93,6 @@ export class SearchService {
     }
     try {
       const { data } = await axios.request(dataConfig)
-      console.log(data.results[0])
       if (data) return this.getAllInformation(data)
       return []
     } catch (error) {

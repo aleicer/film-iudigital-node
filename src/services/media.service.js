@@ -3,7 +3,6 @@ import { MediaModel } from "../schemas/index.js"
 export class MediaService {
   async createMedia(mediaData) {
     try {
-      console.log(mediaData)
       const media = new MediaModel(mediaData)
       return await media.save()
     } catch (error) {
@@ -40,7 +39,6 @@ export class MediaService {
   }
 
   async updateMedia(id, mediaData) {
-    console.log(mediaData)
     try {
       return await MediaModel.findByIdAndUpdate(id, mediaData, { new: true })
     } catch (error) {

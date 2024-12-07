@@ -3,7 +3,6 @@ import { ProducerModel } from '../schemas/index.js';
 export class ProducerService {
   async createProducer(producerData) {
     try {
-      console.log(producerData);
       const producer = new ProducerModel(producerData);
       return await producer.save();
     } catch (error) {
@@ -39,7 +38,6 @@ export class ProducerService {
   }
 
   async updateProducer(id, producerData) {
-    console.log(producerData);
     try {
       return await ProducerModel.findByIdAndUpdate(
         id,

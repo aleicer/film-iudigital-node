@@ -3,7 +3,6 @@ import { DirectorModel } from '../schemas/index.js'
 export class DirectorService {
   async createDirector(directorData) {
     try {
-      console.log(directorData);
       const director = new DirectorModel(directorData);
       return await director.save();
     } catch (error) {
@@ -40,7 +39,6 @@ export class DirectorService {
   }
 
   async updateDirector(id, directorData) {
-    console.log(directorData);
     try {
       return await DirectorModel.findByIdAndUpdate(
         id,
